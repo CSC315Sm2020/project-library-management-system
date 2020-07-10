@@ -1,0 +1,424 @@
+/* Set of Queries */
+
+CREATE TABLE customer (
+customer_id SERIAL PRIMARY KEY,
+name varchar(255) NOT NULL,
+address text NOT NULL,
+phone char(10) NOT NULL
+);
+
+CREATE TABLE librarian (
+employee_id SERIAL PRIMARY KEY,
+name varchar(255) NOT NULL,
+address text NOT NULL,
+phone char(10) NOT NULL
+);
+
+CREATE TABLE book (
+ISBN varchar(13) PRIMARY KEY,
+author text NOT NULL,
+title text NOT NULL,
+virtual BOOLEAN NOT NULL,
+genre text NOT NULL
+);
+
+CREATE TABLE inventory (
+book_id SERIAL PRIMARY KEY,
+ISBN varchar(13) NOT NULL,
+FOREIGN KEY (ISBN)
+REFERENCES book (ISBN)
+);
+
+CREATE TABLE borrows (
+borrow_id SERIAL PRIMARY KEY,
+customer_id int NOT NULL,
+book_id int NOT NULL,
+rent_date DATE DEFAULT CURRENT_DATE,
+due_date DATE DEFAULT CURRENT_DATE + INTERVAL '15 days',
+FOREIGN KEY (customer_id)
+REFERENCES customer (customer_id),
+FOREIGN KEY (book_id)
+REFERENCES inventory (book_id) 
+);
+
+CREATE TABLE reserves (
+reserve_id SERIAL PRIMARY KEY,
+customer_id int NOT NULL,
+employee_id int NOT NULL,
+book_id int NOT NULL,
+reserve_date DATE DEFAULT CURRENT_DATE,
+expiration_date DATE DEFAULT CURRENT_DATE + INTEGER '3',
+FOREIGN KEY (customer_id)
+REFERENCES customer (customer_id),
+FOREIGN KEY (employee_id)
+REFERENCES librarian (employee_id),
+FOREIGN KEY (book_id)
+REFERENCES inventory (book_id)
+);
+
+INSERT INTO customer (name, address, phone)
+VALUES ('John Jones', '223 Asbury Ave, Ewing, NJ 08560', '8553613599');
+
+INSERT INTO customer (name, address, phone)
+VALUES ('Tim Smith', '23 West Ave, Ewing, NJ 08560', '8553313567');
+
+INSERT INTO librarian (name, address, phone)
+values ('James Blake', '123 Oak Ave, Ewing, NJ 08560', '7751234567');
+
+INSERT INTO librarian (name, address, phone)
+values ('Jon Peterson', '11 Chestnut Street, Ewing, NJ 08560', '7756789012');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920497', 'Jeffrey Archer', 'The Grass is Always Greener', 'FALSE', 'Modern Times');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920498', 'Jeffrey Archer', 'The Grass is Always Greener', 'TRUE', 'Modern Times');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920128', 'Arnold Bennett ', 'Murder!', 'FALSE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920129', 'Arnold Bennett ', 'Murder!', 'TRUE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920063', 'Ambrose Bierce', 'An Occurrence at Owl Creek Bridge One of the Missing', 'FALSE', 'Adventure');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920064', 'Ambrose Bierce', 'An Occurrence at Owl Creek Bridge One of the Missing', 'TRUE', 'Adventure');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920225', 'John Bidwell', 'A Boy at Seven: Fear and Loathing in Aspen', 'FALSE', 'Satire');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920226', 'John Bidwell', 'A Boy at Seven: Fear and Loathing in Aspen', 'TRUE', 'Satire');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920101', 'A. E. Coppard', 'The Higgler', 'FALSE', 'Romance');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920102', 'A. E. Coppard', 'The Higgler', 'TRUE', 'Romance');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('186092025X', 'Stephen Crane', 'The Open Boat', 'FALSE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('186092026X', 'Stephen Crane', 'The Open Boat', 'TRUE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920349', 'Roal Dahl', 'The Great Switcheroo', 'FALSE', 'Fable');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920350', 'Roal Dahl', 'The Great Switcheroo', 'True', 'Fable');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920039', 'Arthur Conan Doyle', 'The Speckled Band', 'FALSE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920040', 'Arthur Conan Doyle', 'The Speckled Band', 'TRUE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920381', 'Charles Dickens', 'The Signalman', 'FALSE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920382', 'Charles Dickens', 'The Signalman', 'TRUE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920314', 'Arthur Conan Doyle', 'The Five Orange Pips', 'FALSE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920315', 'Arthur Conan Doyle', 'The Five Orange Pips', 'TRUE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('186092039X', 'Daniel Etessami', 'Cormack''s Black Monday/Gerald''s Day Off/Fat Boy Billy Rules the Middle Lane', 'FALSE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('186092040X', 'Daniel Etessami', 'Cormack''s Black Monday/Gerald''s Day Off/Fat Boy Billy Rules the Middle Lane', 'TRUE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920330', 'F. Scott Fitzgerald', 'The Diamond as Big as the Ritz', 'FALSE', 'Science Fiction');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920331', 'F. Scott Fitzgerald', 'The Diamond as Big as the Ritz', 'TRUE', 'Science Fiction');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920551', 'Ian Fleming', 'From a View to a Kill', 'FALSE', 'Adventure');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920552', 'Ian Fleming', 'From a View to a Kill', 'TRUE', 'Adventure');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920144', 'C. S. Forester', 'The Hostage', 'FALSE', 'Adventure');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920145', 'C. S. Forester', 'The Hostage', 'TRUE', 'Adventure');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920217', 'Graham Greene', 'A Chance for Mr Lever', 'FALSE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920218', 'Graham Greene', 'A Chance for Mr Lever', 'TRUE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920454', 'Thomas Hardy', 'A Mere Interlude', 'FALSE', 'Romance');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920455', 'Thomas Hardy', 'A Mere Interlude', 'TRUE', 'Romance');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920500', 'Jerome K. Jerome', 'The Dancing Partner: Clocks', 'FALSE', 'Comedy');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920501', 'Jerome K. Jerome', 'The Dancing Partner: Clocks', 'TRUE', 'Comedy');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920071', 'D. H. Lawrence', 'The Rocking-Horse Winner', 'FALSE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920072', 'D. H. Lawrence', 'The Rocking-Horse Winner', 'TRUE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920055', 'Katherine Masnfield', 'Bliss Feuille d''Album', 'FALSE', 'Romance');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920056', 'Katherine Masnfield', 'Bliss Feuille d''Album', 'TRUE', 'Romance');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920209', 'Ngaio Marsh', 'Death on the Air', 'FALSE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920210', 'Ngaio Marsh', 'Death on the Air', 'TRUE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920098', 'Guy de Maupassant', 'Mademoiselle Fifi: The Devil', 'FALSE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920099', 'Guy de Maupassant', 'Mademoiselle Fifi: The Devil', 'TRUE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920187', 'Ivo Mosley', 'Christmas in Africa', 'FALSE', 'Sex');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920188', 'Ivo Mosley', 'Christmas in Africa', 'TRUE', 'Sex');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920268', 'Ivo Mosley', 'Love Poems from the Green Book of Poetry', 'FALSE', 'Poetry');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920269', 'Ivo Mosley', 'Love Poems from the Green Book of Poetry', 'TRUE', 'Poetry');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('186092011X', 'O Henry', 'The Ransom of Red Chief; Gift of the Magi', 'FALSE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('186092012X', 'O Henry', 'The Ransom of Red Chief; Gift of the Magi', 'TRUE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920179', 'Here We Are: A Telephone Call', 'Here We Are', 'FALSE', 'Comedy');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920180', 'Here We Are: A Telephone Call', 'Here We Are', 'TRUE', 'Comedy');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('9992243339879', 'Gish Jen', 'The Resisters', 'FALSE', 'History');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('9992243339778', 'Gish Jen', 'The Resisters', 'TRUE', 'History');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('9992243339981', 'Andrew Kriwak', 'The Bear', 'FALSE', 'History');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('9992243339880', 'Andrew Kriwak', 'The Bear', 'TRUE', 'History');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('9992243339887', 'John Lacester', 'The Wall', 'FALSE', 'History');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('9992243339888', 'John Lacester', 'The Wall', 'TRUE', 'History');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920195', 'Edgar Allan Poe', 'The Pit and the Pendulum', 'FALSE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920196', 'Edgar Allan Poe', 'The Pit and the Pendulum', 'TRUE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920357', 'John Polidori', 'The Vampyre', 'FALSE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920358', 'John Polidori', 'The Vampyre', 'TRUE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920365', 'Edna O''Brien', 'Irish Revel', 'FALSE', 'Romance');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920366', 'Edna O''Brien', 'Irish Revel', 'TRUE', 'Romance');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920322', 'Ruth Rendell', 'Thernapple', 'FALSE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920323', 'Ruth Rendell', 'Thernapple', 'TRUE', 'Crime');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920136', 'Saki', 'Sredni Vashtar, The Secret Sin Septimus Brope, The Lumber Room', 'FALSE', 'Comedy');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920137', 'Saki', 'Sredni Vashtar, The Secret Sin Septimus Brope, The Lumber Room', 'TRUE', 'Comedy');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920152', 'Muriel Spark', 'The Young Man who Discovered the Secret of Life', 'FALSE', 'Short Stories');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920153', 'Muriel Spark', 'The Young Man who Discovered the Secret of Life', 'TRUE', 'Short Stories');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920013', 'Robert Louis Stevenson', 'The Body Snatcher', 'TRUE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920012', 'Robert Louis Stevenson', 'The Body Snatcher', 'FALSE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('186092009X', 'Bram Stoker', 'The Judge''s House', 'TRUE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('186092008X', 'Bram Stoker', 'The Judge''s House', 'FALSE', 'Suspense');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES('1860920411', 'William Trevor', 'The Summer Visitor', 'FALSE', 'Short Stories');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES('1860920412', 'William Trevor', 'The Summer Visitor', 'TRUE', 'Short Stories');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920005', 'Evelyn Waugh', 'On Guard, Bella Fleace Gave a Party', 'TRUE', 'Comedy');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920004', 'Evelyn Waugh', 'On Guard, Bella Fleace Gave a Party', 'FALSE', 'Comedy');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920306', 'Teresa Waugh', 'A Perfect Day', 'FALSE', 'Short Stories');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920307', 'Teresa Waugh', 'A Perfect Day', 'TRUE', 'Short Stories');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920020', 'H.G. Wells', 'Country of the Blind', 'FALSE', 'Science Fiction');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920021', 'H.G. Wells', 'Country of the Blind', 'TRUE', 'Science Fiction');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920161', 'Oscar Wilde', 'Lord Savile''s Crime', 'TRUE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920160', 'Oscar Wilde', 'Lord Savile''s Crime', 'FALSE', 'Classic');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920048', 'P.G. Wodehouse', 'Goodbye to all Cats', 'TRUE', 'Comedy');
+
+INSERT INTO book (ISBN, author, title, virtual, genre)
+VALUES ('1860920047', 'P.G. Wodehouse', 'Goodbye to all Cats', 'FALSE', 'Comedy');
+
+
+INSERT INTO inventory (ISBN)
+SELECT ISBN FROM book;
+
+
+
+INSERT INTO inventory (isbn) VALUES ('9992243339887');
+INSERT INTO inventory (isbn) VALUES ('9992243339880');
+
+/* Customer 1 borrows 2 books */
+INSERT INTO borrows (customer_id, book_id)
+VALUES ('1', '27');
+INSERT INTO borrows (customer_id, book_id)
+VALUES ('1', '35');
+
+/* Reserving a book */
+INSERT INTO reserves (customer_id, employee_id, book_id)
+VALUES ('1', '1', '19');
+
+INSERT INTO reserves (customer_id, employee_id, book_id)
+VALUES ('2', '2', '32');
+
+/* Updating customer attributes */
+UPDATE customer 
+SET name = 'Jon B Peterson', address = '11 Chestnut Street, Ewing, NJ 08560', phone = '7756789012' 
+WHERE customer_id = '<customer_id>';
+
+/* Updating librarian attributes */
+UPDATE librarian
+SET name = 'James C Blake', address = '123 Oak Ave, Ewing, NJ 08560', phone = '7751234567' 
+WHERE librarian_id = '<librarian_id>';
+
+/* Updating the book isbn */
+UPDATE book SET isbn='9992223339889' WHERE isbn='999222333987';
+
+/* Updating the rent dates */
+UPDATE borrows
+SET rent_date= '2020-10-01'
+WHERE book_id= '14';
+
+UPDATE borrows
+SET rent_date= '2020-08-01'
+WHERE book_id= '10';
+
+/* Once customer 2 returns book */
+DELETE FROM borrows WHERE customer_id='2' and book_id='11';
+
+/* Finding which books are overdue */
+SELECT name, title, due_date FROM book NATURAL JOIN inventory
+NATURAL JOIN borrows NATURAL JOIN customer
+WHERE due_date < 'TODAY';
+
+/* Finding which books are reserved */
+SELECT name, title, expiration_date
+FROM book NATURAL JOIN inventory NATURAL JOIN reserves
+NATURAL JOIN customer
+WHERE expiration_date = 'TODAY';
+
+/* Selecting titles/physical copies of books in the history genre */
+SELECT title, book_id FROM book
+LEFT JOIN inventory ON book.isbn=inventory.isbn
+WHERE book.genre='History';
+
+/* Retrieves all rented books */
+SELECT name,title FROM book NATURAL JOIN inventory
+NATURAL JOIN borrows NATURAL JOIN customer;
+
+/* If user checks genre history that is not borrowed or reserved */
+SELECT inventory.book_id, book.title,
+book.genre FROM borrows
+RIGHT JOIN inventory ON borrows.book_id=inventory.book_id
+NATURAL JOIN book
+WHERE genre='History' AND borrows.book_id IS NULL AND inventory.book_id NOT IN
+(SELECT book_id FROM reserves);
+
+/* Retrieve all available virtual books available */
+SELECT inventory.book_id, book.title, book.virtual,
+book.genre FROM borrows
+RIGHT JOIN inventory ON borrows.book_id=inventory.book_id
+NATURAL JOIN book
+WHERE book.virtual=TRUE AND borrows.book_id IS null AND inventory.book_id NOT IN
+(select book_id from reserves);
+
+/* Retrieve virtual books available, grouped by genre */
+SELECT book.genre, count(*) FROM borrows
+RIGHT JOIN inventory ON borrows.book_id=inventory.book_id
+NATURAL JOIN book
+WHERE book.virtual=TRUE and borrows.book_id IS NULL AND inventory.book_id NOT IN
+(SELECT book_id FROM reserves) GROUP BY book.genre;
+
+/* Retrieves what books customer 1 has rented */
+SELECT title
+FROM book LEFT JOIN inventory ON book.isbn=inventory.isbn
+LEFT JOIN borrows ON borrows.book_id=inventory.book_id 
+LEFT JOIN customer on borrows.customer_id=customer.customer_id
+WHERE customer_id= '1';
+
+/* Retrieves existing copies of a particular book */
+SELECT title, book_id 
+FROM book
+LEFT JOIN inventory ON book.isbn=inventory.isbn
+WHERE book.isbn= '1860920411';
